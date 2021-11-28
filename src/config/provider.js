@@ -1,5 +1,5 @@
 import { NODE, NETWORK_ID } from './config';
-import secrets from 'secrets';
+import secrets from './secrets.dev';
 
 export default {
   api: {

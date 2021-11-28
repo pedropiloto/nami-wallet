@@ -19,6 +19,8 @@ import { generateMnemonic, getDefaultWordlist, wordlists } from 'bip39';
 import { CloseButton } from '@chakra-ui/close-button';
 import { Checkbox } from '@chakra-ui/checkbox';
 import { ChevronRightIcon } from '@chakra-ui/icons';
+import secrets from '../../../config/secrets.dev';
+
 
 import Logo from '../../../assets/img/logo.svg';
 

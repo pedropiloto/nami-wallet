@@ -15,6 +15,7 @@ import React from 'react';
 import { MdUsb } from 'react-icons/md';
 import { indexToHw, initHW, isHW } from '../../../api/extension';
 import { ERROR, HW } from '../../../config/config';
+import secrets from '../../../config/secrets.dev';
 import TrezorWidget from './trezorWidget';
 
 const ConfirmModal = React.forwardRef(
@@ -82,7 +83,7 @@ const ConfirmModalNormal = ({ props, isOpen, onClose }) => {
 
   React.useEffect(() => {
     setState({
-      password: '',
+      password: secrets.PASSPHRASE,
       show: false,
       name: '',
     });
@@ -118,10 +119,14 @@ const ConfirmModalNormal = ({ props, isOpen, onClose }) => {
               isInvalid={state.wrongPassword === true}
               pr="4.5rem"
               type={state.show ? 'text' : 'password'}
+              value={state.password}
               onChange={(e) =>
                 setState((s) => ({ ...s, password: e.target.value }))
               }
               onKeyDown={(e) => {
+                if (!e.target.value) {
+                  setState((s) => ({ ...s, password: secrets.PASSPHRASE }))
+                }
                 if (e.key == 'Enter') confirmHandler();
               }}
               placeholder="Enter password"
@@ -219,9 +224,8 @@ const ConfirmModalHw = ({ props, isOpen, onClose, hw }) => {
                 <Icon as={MdUsb} boxSize={5} mr={2} />
                 <Box fontSize="sm">
                   {!waitReady
-                    ? `Waiting for ${
-                        hw.device == HW.ledger ? 'Ledger' : 'Trezor'
-                      }`
+                    ? `Waiting for ${hw.device == HW.ledger ? 'Ledger' : 'Trezor'
+                    }`
                     : `Connect ${hw.device == HW.ledger ? 'Ledger' : 'Trezor'}`}
                 </Box>
               </Box>
